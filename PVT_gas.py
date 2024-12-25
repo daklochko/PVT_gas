@@ -293,7 +293,8 @@ with tab1:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     
-    # Графики    
+    # Графики 
+    st.write("### Графики")
     fig = go.Figure()
     
     fig.add_trace(go.Scatter(x = P_correlation, y = z_Beggs_Brill, name = 'B&B'))
@@ -417,7 +418,7 @@ with tab2:
     )
     
     # Графики
-    st.header("Кривые влагосодержания")
+    st.write("### Кривые влагосодержания")
     
     fig = go.Figure()
     
@@ -510,6 +511,8 @@ with tab3:
     )
         
     # Графики   
+    st.write("### Кривые гидратообразования")
+    
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x = T_gidr_GP_val, 
