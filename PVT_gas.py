@@ -473,13 +473,43 @@ with tab3:
     with col3:
         st.metric(label="Корреляция Towler & Mokhatab, °C", value=f"{N3:.4f}")
         
-    # Графики   
     P_corr = np.array([0.101325, 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40])
     
     T_gidr_GP_val = СТO_ГП_валанжин(P_corr)
     T_gidr_GP_sen = СТO_ГП_сеноман(P_corr)
     T_gidr_T_W = Towler_Mokhatab(P_corr, gamma_g)
     
+    df_gidr_GP_val = pd.DataFrame({        
+        "P, бар": P_corr,
+        "T, ℃": T_gidr_GP_val
+    })
+
+    df_gidr_GP_sen = pd.DataFrame({
+        "P, бар": P_corr,
+        "T, ℃": T_gidr_GP_sen
+    })
+
+    df_gidr_T_W = pd.DataFrame({
+        "P, бар": P_corr,
+        "T, ℃": T_gidr_T_W
+    })
+        
+    # Кнопка для выгрузки Excel-файла
+    st.write("### Таблицы гидратообразования")
+    
+    dfs = [df_gidr_GP_val, df_gidr_GP_sen, df_gidr_T_W]
+    sheet_names = ["СТО ГП сеноман", "СТО ГП валанжин", "Корреляция Towler & Mokhatab"]
+
+    excel_file = create_excel_file(dfs, sheet_names)
+
+    st.download_button(
+        label="Скачать таблицы гидратообразования",
+        data=excel_file,
+        file_name="Гидратообразование.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+        
+    # Графики   
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x = T_gidr_GP_val, 
