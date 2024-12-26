@@ -186,7 +186,7 @@ with tab1:
     T_pc, P_pc = Standing(gamma_g)
     T_pc_, P_pc_ = Carr_Kobayashi_Burrows(T_pc, P_pc, x_CO2, x_H2S, x_N2)
 
-    z_Beggs_Brill_1 = Beggs_Brill((T_parameter + 273.15) / T_pc, P_parameter / P_pc)
+    z_Beggs_Brill_1 = Beggs_Brill((T_parameter + 273.15) / T_pc_, P_parameter / P_pc_)
     Bg_Beggs_Brill_1 = 0.003456 * (T_parameter + 273.15) * z_Beggs_Brill_1 / P_parameter
     rho_g_Beggs_Brill_1 = 348.339 * P_parameter * gamma_g / (T_parameter + 273.15) / z_Beggs_Brill_1
     mu_g_Beggs_Brill_1 = viscosity(rho_g_Beggs_Brill_1, gamma_g, (T_parameter + 273.15))
