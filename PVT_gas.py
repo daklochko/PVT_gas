@@ -64,10 +64,10 @@ with tab1:
     
         """
     
-        T_pc = (170.491 + gamma_g * 307.44) / 1.8
-        P_pc = 0.006894 * (709.604 - gamma_g * 58.714) * 10
+        T_pc_HTP = (170.491 + gamma_g * 307.44) / 1.8
+        P_pc_HTP = 0.006894 * (709.604 - gamma_g * 58.718) * 10
     
-        return T_pc, P_pc
+        return T_pc_HTP, P_pc_HTP
     
     def Carr_Kobayashi_Burrows(T_pc, P_pc, x_CO2, x_H2S, x_N2):
         """    
@@ -185,13 +185,13 @@ with tab1:
        
     T_pc, P_pc = Standing(gamma_g)
     T_pc_, P_pc_ = Carr_Kobayashi_Burrows(T_pc, P_pc, x_CO2, x_H2S, x_N2)
+    T_pc_HTP, P_pc_HTP = Hankinson_Thomas_Phillips(gamma_g)
 
     z_Beggs_Brill_1 = Beggs_Brill((T_parameter + 273.15) / T_pc_, P_parameter / P_pc_)
     Bg_Beggs_Brill_1 = 0.003456 * (T_parameter + 273.15) * z_Beggs_Brill_1 / P_parameter
     rho_g_Beggs_Brill_1 = 348.339 * P_parameter * gamma_g / (T_parameter + 273.15) / z_Beggs_Brill_1
     mu_g_Beggs_Brill_1 = viscosity(rho_g_Beggs_Brill_1, gamma_g, (T_parameter + 273.15))
     
-    T_pc_HTP, P_pc_HTP = Hankinson_Thomas_Phillips(gamma_g)
     z_Latonov_Gurevich_1 = Latonov_Gurevich((T_parameter + 273.15) / T_pc_HTP, P_parameter / P_pc_HTP)
     Bg_Latonov_Gurevich_1 = 0.003456 * (T_parameter + 273.15) * z_Latonov_Gurevich_1 / P_parameter
     rho_g_Latonov_Gurevich_1 = 348.339 * P_parameter * gamma_g / (T_parameter + 273.15) / z_Latonov_Gurevich_1
