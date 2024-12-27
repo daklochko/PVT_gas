@@ -37,7 +37,7 @@ with tab1:
     T_parameter = st.number_input("Введите температуру T, ℃:", value = 87.0)
     gamma_g = st.number_input("Введите относительную плотность газа по воздуху $γ_g$:", value = 0.633)
     x_CO2 = st.number_input("Введите значение xCO2, мольн. доли:", value = 0.0035901)
-    x_H2S = st.number_input("Введите значение xH2S, мольн. доли:", value = 0)
+    x_H2S = st.number_input("Введите значение xH2S, мольн. доли:", value = 0.01)
     x_N2 = st.number_input("Введите значение xN2, мольн. доли:", value = 0.0078302)
     
     def Standing(gamma_g):
