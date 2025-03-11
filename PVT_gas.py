@@ -36,9 +36,9 @@ with tab1:
     P_parameter = st.number_input("Введите давление P, бар:", value = 360.0)
     T_parameter = st.number_input("Введите температуру T, ℃:", value = 87.0)
     gamma_g = st.number_input("Введите относительную плотность газа по воздуху $γ_g$:", value = 0.633)
-    x_CO2 = st.number_input("Введите значение xCO2, мольн. доли:", value = 0.0035901)
-    x_H2S = st.number_input("Введите значение xH2S, мольн. доли:", value = 0.00)
-    x_N2 = st.number_input("Введите значение xN2, мольн. доли:", value = 0.0078302)
+    x_CO2 = st.number_input("Введите значение xCO2, мольн. доли:", value = 0.0035901, format="%.5f")
+    x_H2S = st.number_input("Введите значение xH2S, мольн. доли:", value = 0.00, format="%.5f")
+    x_N2 = st.number_input("Введите значение xN2, мольн. доли:", value = 0.0078302, format="%.5f")
     
     def Standing(gamma_g):
         """    
@@ -205,20 +205,20 @@ with tab1:
     st.write("### Результаты")
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric(label="z, B&B", value=f"{z_Beggs_Brill_1:.4f}")
-        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, B&B", value=f"{Bg_Beggs_Brill_1:.4f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, B&B", value=f"{rho_g_Beggs_Brill_1:.4f}")
-        st.metric(label="$μ_g$, $\\text{сПз}$, B&B", value=f"{mu_g_Beggs_Brill_1:.4f}")
+        st.metric(label="z, B&B", value=f"{z_Beggs_Brill_1:.5f}")
+        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, B&B", value=f"{Bg_Beggs_Brill_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, B&B", value=f"{rho_g_Beggs_Brill_1:.5f}")
+        st.metric(label="$μ_g$, $\\text{сПз}$, B&B", value=f"{mu_g_Beggs_Brill_1:.5f}")
     with col2:
-        st.metric(label="z, Л&Г", value=f"{z_Latonov_Gurevich_1:.4f}")
-        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$,  Л&Г", value=f"{Bg_Latonov_Gurevich_1:.4f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, Л&Г", value=f"{rho_g_Latonov_Gurevich_1:.4f}")
-        st.metric(label="$μ_g$, $\\text{сПз}$, Л&Г", value=f"{mu_g_Latonov_Gurevich_1:.4f}")
+        st.metric(label="z, Л&Г", value=f"{z_Latonov_Gurevich_1:.5f}")
+        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$,  Л&Г", value=f"{Bg_Latonov_Gurevich_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, Л&Г", value=f"{rho_g_Latonov_Gurevich_1:.5f}")
+        st.metric(label="$μ_g$, $\\text{сПз}$, Л&Г", value=f"{mu_g_Latonov_Gurevich_1:.5f}")
     with col3:
-        st.metric(label="z, H&Y", value=f"{z_Hall_Yarborough_1:.4f}")
-        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, H&Y", value=f"{Bg_Hall_Yarborough_1:.4f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, H&Y", value=f"{rho_g_Hall_Yarborough_1:.4f}")
-        st.metric(label="$μ_g$, $\\text{сПз}$, H&Y", value=f"{mu_g_Hall_Yarborough_1:.4f}")
+        st.metric(label="z, H&Y", value=f"{z_Hall_Yarborough_1:.5f}")
+        st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, H&Y", value=f"{Bg_Hall_Yarborough_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, H&Y", value=f"{rho_g_Hall_Yarborough_1:.5f}")
+        st.metric(label="$μ_g$, $\\text{сПз}$, H&Y", value=f"{mu_g_Hall_Yarborough_1:.5f}")
         
     N = 1000
     P_correlation = np.linspace(1.01325, P_parameter, N)
