@@ -458,16 +458,15 @@ with tab3:
     
     def СТO_ГП_валанжин(P):
         
-        if np.any(P) < 8:
-            T_gidr = 7.55*ln_array(P) + 1.87
-        if np.any(P) > 10:
-            T_gidr = 7.65*ln_array(P)+1.85       
-            
+        P = np.asarray(P)  
+        T_gidr = np.where(P <= 8, 7.55 * np.log(P) + 1.87, 7.65 * np.log(P) + 1.85)
+        
         return T_gidr
     
     def СТO_ГП_сеноман(P):
         
-        return 9.97*ln_array(P)-9.3
+        return 9.97 * ln_array(P) - 9.3
+        
     
     def Towler_Mokhatab(P, gamma_g):
         """
@@ -488,7 +487,9 @@ with tab3:
     with col3:
         st.metric(label="Корреляция Towler & Mokhatab, °C", value=f"{N3:.4f}")
         
-    P_corr = np.array([0.101325, 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40])
+    P_corr_1 = np.array([P_parameter, 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40])
+    P_corr_2 = np.sort(P_corr_1)
+    P_corr = P_corr_2[P_corr_2 >= P_parameter]
     
     T_gidr_GP_val = СТO_ГП_валанжин(P_corr)
     T_gidr_GP_sen = СТO_ГП_сеноман(P_corr)
@@ -512,7 +513,7 @@ with tab3:
     # Кнопка для выгрузки Excel-файла
     st.write("### Таблицы гидратообразования")
     
-    dfs = [df_gidr_GP_val, df_gidr_GP_sen, df_gidr_T_W]
+    dfs = [df_gidr_GP_sen, df_gidr_GP_val, df_gidr_T_W]
     sheet_names = ["СТО ГП сеноман", "СТО ГП валанжин", "Корреляция Towler & Mokhatab"]
 
     excel_file = create_excel_file(dfs, sheet_names)
