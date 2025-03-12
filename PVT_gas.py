@@ -382,7 +382,7 @@ with tab2:
 #        st.metric(label="По Ваттенбергеру (в оригинале), $\\text{г/м}^3$", value=f"{N3:.4f}")
         st.metric(label="Daubert and Danner, $\\text{г/м}^3$", value=f"{N4:.4f}")
         
-    P_w = np.linspace(0.0, P_w_1, 11)
+    P_w = np.linspace(P_w_1, 1.0, 11)
     T_w = np.full(11, T_w_1)
 
     w_B_H = Bukacek_H(P_w, T_w)
