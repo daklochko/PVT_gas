@@ -376,10 +376,10 @@ with tab2:
     st.write("### Результаты")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric(label="Бюкачек по Хилько, $\\text{г/м}^3$", value=f"{N1:.4f}")
+#        st.metric(label="Бюкачек по Хилько, $\\text{г/м}^3$", value=f"{N1:.4f}")
         st.metric(label="Бюкачек по Ваттенбергеру (в переводе), $\\text{г/м}^3$", value=f"{N2:.4f}")
     with col2:
-        st.metric(label="По Ваттенбергеру (в оригинале), $\\text{г/м}^3$", value=f"{N3:.4f}")
+#        st.metric(label="По Ваттенбергеру (в оригинале), $\\text{г/м}^3$", value=f"{N3:.4f}")
         st.metric(label="Daubert and Danner, $\\text{г/м}^3$", value=f"{N4:.4f}")
         
     P_w = np.array([100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 1])
@@ -417,8 +417,10 @@ with tab2:
     # Кнопка для выгрузки Excel-файла
     st.write("### Таблицы влагосодержания")
     
-    dfs = [df_w_B_H, df_w_B_W, df_w_W, df_D_D]
-    sheet_names = ["Бюкачек по Хилько", "По Ваттенбергеру (перевод)", "По Ваттенбергеру (оригинал)", "Daubert and Danner"]
+    #dfs = [df_w_B_H, df_w_B_W, df_w_W, df_D_D]
+    #sheet_names = ["Бюкачек по Хилько", "По Ваттенбергеру (перевод)", "По Ваттенбергеру (оригинал)", "Daubert and Danner"]
+    dfs = [df_w_B_W, df_D_D]
+    sheet_names = ["По Ваттенбергеру (перевод)", "Daubert and Danner"]
 
     excel_file = create_excel_file(dfs, sheet_names)
 
@@ -434,14 +436,14 @@ with tab2:
     
     fig = go.Figure()
     
-    fig.add_trace(go.Scatter(x = P_w, y = w_B_H, mode = 'lines', name = 'Бюкачек по Хилько'))
+    #fig.add_trace(go.Scatter(x = P_w, y = w_B_H, mode = 'lines', name = 'Бюкачек по Хилько'))
     fig.add_trace(go.Scatter(x = P_w, y = w_B_W, mode = 'lines', name = 'Бюкачек по Ваттенбергеру'))
-    fig.add_trace(go.Scatter(x = P_w, y = w_W, mode = 'lines', name = 'По Ваттенбергеру'))
+    #fig.add_trace(go.Scatter(x = P_w, y = w_W, mode = 'lines', name = 'По Ваттенбергеру'))
     fig.add_trace(go.Scatter(x = P_w, y = w_D_D, mode = 'lines', name = 'D&D'))
     
     fig.update_layout(
         xaxis_title = "P, бар",
-        yaxis_title = "T, °C"
+        yaxis_title = "W, г/м3"
     )
     
     # Отображение графика
