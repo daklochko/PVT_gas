@@ -100,7 +100,7 @@ with tab1:
         """
         
         A = 1.39 * (T_pr - 0.92)**0.5 - 0.36 * T_pr  - 0.101
-        C = 0.132 - 0.321 * log10_array(T_pr)
+        C = 0.132 - 0.32 * log10_array(T_pr)
         E = 9 * (T_pr - 1)
         B = (0.62 - 0.23 * T_pr) * P_pr + (0.066 / (T_pr - 0.86) - 0.037) * P_pr**2 + 0.32 * P_pr**2 / 10**E
         F = 0.3106 - 0.49 * T_pr + 0.1824 * T_pr**2
@@ -171,17 +171,29 @@ with tab1:
     
     def pseudopressure(P, mu, z):
         
-        m_values = []
-    
+        m_values = [P[0]**2 / (mu[0] * z[0])]
+        
         for i in range(1, len(P)):
             
             summ = P[i-1] / (mu[i-1] * z[i-1]) + P[i] / (mu[i] * z[i])
             delta_p = P[i] - P[i-1]
-            m_values.append(summ * delta_p)
+            m_values.append(summ * delta_p + m_values[i-1])
             
-            m = np.cumsum(m_values)
-            
-        return m
+    return m_values
+    
+#     def pseudopressure(P, mu, z):
+#        
+#        m_values = []
+#    
+#        for i in range(1, len(P)):
+#            
+#            summ = P[i-1] / (mu[i-1] * z[i-1]) + P[i] / (mu[i] * z[i])
+#            delta_p = P[i] - P[i-1]
+#            m_values.append(summ * delta_p)
+#            
+#            m = np.cumsum(m_values)
+#            
+#        return m
        
     T_pc, P_pc = Standing(gamma_g)
     T_pc_, P_pc_ = Carr_Kobayashi_Burrows(T_pc, P_pc, x_CO2, x_H2S, x_N2)
@@ -207,17 +219,17 @@ with tab1:
     with col1:
         st.metric(label="z, B&B", value=f"{z_Beggs_Brill_1:.5f}")
         st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, B&B", value=f"{Bg_Beggs_Brill_1:.5f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, B&B", value=f"{rho_g_Beggs_Brill_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, B&B", value=f"{rho_g_Beggs_Brill_1:.2f}")
         st.metric(label="$μ_g$, $\\text{сПз}$, B&B", value=f"{mu_g_Beggs_Brill_1:.5f}")
     with col2:
         st.metric(label="z, Л&Г", value=f"{z_Latonov_Gurevich_1:.5f}")
         st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$,  Л&Г", value=f"{Bg_Latonov_Gurevich_1:.5f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, Л&Г", value=f"{rho_g_Latonov_Gurevich_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, Л&Г", value=f"{rho_g_Latonov_Gurevich_1:.2f}")
         st.metric(label="$μ_g$, $\\text{сПз}$, Л&Г", value=f"{mu_g_Latonov_Gurevich_1:.5f}")
     with col3:
         st.metric(label="z, H&Y", value=f"{z_Hall_Yarborough_1:.5f}")
         st.metric(label="$B_g$, $\\text{м}^3$/$\\text{м}^3$, H&Y", value=f"{Bg_Hall_Yarborough_1:.5f}")
-        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, H&Y", value=f"{rho_g_Hall_Yarborough_1:.5f}")
+        st.metric(label="$ρ_g$, $\\text{кг/м}^3$, H&Y", value=f"{rho_g_Hall_Yarborough_1:.2f}")
         st.metric(label="$μ_g$, $\\text{сПз}$, H&Y", value=f"{mu_g_Hall_Yarborough_1:.5f}")
         
     N = 1000
@@ -241,9 +253,9 @@ with tab1:
     mu_g_Hall_Yarborough = viscosity(rho_g_Hall_Yarborough, gamma_g, np.full(N, (T_parameter + 273.15)))
     m_Hall_Yarborough = pseudopressure(P_correlation, mu_g_Hall_Yarborough, z_Hall_Yarborough)
     
-    m_Beggs_Brill = np.append(m_Beggs_Brill, m_Beggs_Brill[-1])
-    m_Latonov_Gurevich = np.append(m_Latonov_Gurevich, m_Latonov_Gurevich[-1])
-    m_Hall_Yarborough = np.append(m_Hall_Yarborough, m_Hall_Yarborough[-1])
+#    m_Beggs_Brill = np.append(m_Beggs_Brill, m_Beggs_Brill[-1])
+#    m_Latonov_Gurevich = np.append(m_Latonov_Gurevich, m_Latonov_Gurevich[-1])
+#    m_Hall_Yarborough = np.append(m_Hall_Yarborough, m_Hall_Yarborough[-1])
     
     df_B_B = pd.DataFrame({
         "P, бар": P_correlation,
