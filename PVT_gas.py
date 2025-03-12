@@ -382,8 +382,10 @@ with tab2:
 #        st.metric(label="По Ваттенбергеру (в оригинале), $\\text{г/м}^3$", value=f"{N3:.4f}")
         st.metric(label="Daubert and Danner, $\\text{г/м}^3$", value=f"{N4:.4f}")
         
-    P_w = np.linspace(P_w_1, 1.0, 11)
-    T_w = np.full(11, T_w_1)
+    P_corr_1 = np.array([P_w_1, 90, 80, 70, 60, 50, 40, 30, 20, 10, 1])
+    P_corr_2 = np.sort(P_corr_1)
+    P_w = P_corr_2[P_corr_2 <= P_w_1][::-1]
+    T_w = np.full(len(P_w), T_w_1)
 
     w_B_H = Bukacek_H(P_w, T_w)
     w_B_W = Bukacek_W(P_w, T_w)
