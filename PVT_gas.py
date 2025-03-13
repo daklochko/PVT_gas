@@ -102,7 +102,7 @@ with tab1:
         A = 1.39 * (T_pr - 0.92)**0.5 - 0.36 * T_pr  - 0.101
         C = 0.132 - 0.32 * log10_array(T_pr)
         E = 9 * (T_pr - 1)
-        B = (0.62 - 0.23 * T_pr) * P_pr + (0.066 / (T_pr - 0.86) - 0.037) * P_pr**2 + 0.32 * P_pr**2 / 10**E
+        B = (0.62 - 0.23 * T_pr) * P_pr + (0.066 / (T_pr - 0.86) - 0.037) * P_pr**2 + 0.32 * P_pr**6 / 10**E
         F = 0.3106 - 0.49 * T_pr + 0.1824 * T_pr**2
         D = 10**F
         
@@ -377,15 +377,19 @@ with tab2:
     col1, col2 = st.columns(2)
     with col1:
 #        st.metric(label="Бюкачек по Хилько, $\\text{г/м}^3$", value=f"{N1:.4f}")
-        st.metric(label="Бюкачек по Ваттенбергеру (в переводе), $\\text{г/м}^3$", value=f"{N2:.4f}")
+#        st.metric(label="Бюкачек по Ваттенбергеру (в переводе), $\\text{г/м}^3$", value=f"{N2:.4f}")
+        st.metric(label="Bukacek, $\\text{г/м}^3$", value=f"{N2:.4f}")
     with col2:
 #        st.metric(label="По Ваттенбергеру (в оригинале), $\\text{г/м}^3$", value=f"{N3:.4f}")
         st.metric(label="Daubert and Danner, $\\text{г/м}^3$", value=f"{N4:.4f}")
         
-    P_corr_1 = np.array([P_w_1, 90, 80, 70, 60, 50, 40, 30, 20, 10, 1])
-    P_corr_2 = np.sort(P_corr_1)
-    P_w = P_corr_2[P_corr_2 <= P_w_1][::-1]
-    T_w = np.full(len(P_w), T_w_1)
+    #P_corr_1 = np.array([P_w_1, 90, 80, 70, 60, 50, 40, 30, 20, 10, 1])
+    #P_corr_2 = np.sort(P_corr_1)
+    #P_w = P_corr_2[P_corr_2 <= P_w_1][::-1]
+    #T_w = np.full(len(P_w), T_w_1)
+    
+    P_w = np.array([100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 1])
+    T_w = np.full(11, T_w_1)
 
     w_B_H = Bukacek_H(P_w, T_w)
     w_B_W = Bukacek_W(P_w, T_w)
@@ -422,7 +426,7 @@ with tab2:
     #dfs = [df_w_B_H, df_w_B_W, df_w_W, df_D_D]
     #sheet_names = ["Бюкачек по Хилько", "По Ваттенбергеру (перевод)", "По Ваттенбергеру (оригинал)", "Daubert and Danner"]
     dfs = [df_w_B_W, df_D_D]
-    sheet_names = ["По Ваттенбергеру (перевод)", "Daubert and Danner"]
+    sheet_names = ["Bukacek", "Daubert and Danner"]
 
     excel_file = create_excel_file(dfs, sheet_names)
 
@@ -439,7 +443,7 @@ with tab2:
     fig = go.Figure()
     
     #fig.add_trace(go.Scatter(x = P_w, y = w_B_H, mode = 'lines', name = 'Бюкачек по Хилько'))
-    fig.add_trace(go.Scatter(x = P_w, y = w_B_W, mode = 'lines', name = 'Бюкачек по Ваттенбергеру'))
+    fig.add_trace(go.Scatter(x = P_w, y = w_B_W, mode = 'lines', name = 'Bukacek'))
     #fig.add_trace(go.Scatter(x = P_w, y = w_W, mode = 'lines', name = 'По Ваттенбергеру'))
     fig.add_trace(go.Scatter(x = P_w, y = w_D_D, mode = 'lines', name = 'D&D'))
     
@@ -476,8 +480,8 @@ with tab3:
         """    
         return 7.48333 * ln_array(P * 10) + 16.5502 * ln_array(gamma_g) - 0.930556 * ln_array(P * 10) * ln_array(gamma_g) - 9.06983
     
-    N1 = СТO_ГП_валанжин(P_parameter)
-    N2 = СТO_ГП_сеноман(P_parameter)
+    N1 = СТO_ГП_сеноман(P_parameter)
+    N2 = СТO_ГП_валанжин(P_parameter)
     N3 = Towler_Mokhatab(P_parameter, gamma_g)
     
     st.write("### Результаты")
@@ -489,9 +493,11 @@ with tab3:
     with col3:
         st.metric(label="Корреляция Towler & Mokhatab, °C", value=f"{N3:.4f}")
         
-    P_corr_1 = np.array([P_parameter, 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40])
-    P_corr_2 = np.sort(P_corr_1)
-    P_corr = P_corr_2[P_corr_2 >= P_parameter]
+#    P_corr_1 = np.array([P_parameter, 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40])
+#    P_corr_2 = np.sort(P_corr_1)
+#    P_corr = P_corr_2[P_corr_2 >= P_parameter]
+
+    P_corr = np.array([0.101325, 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
     
     T_gidr_GP_val = СТO_ГП_валанжин(P_corr)
     T_gidr_GP_sen = СТO_ГП_сеноман(P_corr)
